@@ -3,15 +3,22 @@ import './Model.css';
 import { Ollama } from "langchain/llms/ollama";
 
 
-function Model() {
+function Model({model}) {
   const [inputValue, setInputValue] = useState('');
   const [query, setQuery] = useState('');
   const [response, setResponse] = useState('');
   const [history, setHistory] = useState([]);
-  const [ollama] = useState(new Ollama({
-    baseUrl: "http://129.254.233.72:11434/",
-    model: "mistral",
-  }));
+  const [ollama, setOllama] = useState(null);
+
+  useEffect(() => {
+    setOllama(new Ollama({
+      baseUrl: "http://129.254.233.72:11434/",
+      model: model,
+    }));
+    console.log(`Using ${model}`)
+    setQuery('');
+    setResponse('');
+  }, [model]);
 
   const handleHistoryClearButtonClick = () => {
     setHistory([]);
