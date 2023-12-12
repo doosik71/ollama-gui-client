@@ -1,0 +1,42 @@
+.Model {
+    margin: 1em auto;
+    max-width: 80em;
+}
+
+.Model .history {
+    margin: 1em;
+}
+
+.Model .history p:nth-last-child(2) {
+    font-size: 120%;
+    color: dodgerblue;
+}
+
+.Model .history button {
+    padding: 0.5em 1em;
+}
+
+.Model input {
+    width: 50em;
+    height: 3em;
+    margin-right: 0.5em;
+    margin-bottom: 0.5em;
+    padding-left: 1em;
+    padding-right: 1em;
+    font-size: 120%;
+}
+
+.Model .query button {
+    padding: 1em;
+    margin-bottom: 0.5em;
+    font-size: 120%;
+}
+
+.Model .query {
+    margin: 1em;
+}
+
+.Model .response {
+    margin: 1em;
+    font-size: 120%;
+}

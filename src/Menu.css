@@ -1,0 +1,18 @@
+.Menu {
+    margin: 0em auto;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid lightgray;
+    max-width: 80em;
+}
+
+.Menu .title {
+    font-size: 2em;
+    font-weight: 700;
+}
+
+.Menu .subtitle {
+    font-size: 1.2em;
+    font-weight: 400;
+    padding-top: 0.6em;
+}
