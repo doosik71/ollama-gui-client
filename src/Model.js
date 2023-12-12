@@ -6,22 +6,20 @@ import { Ollama } from "langchain/llms/ollama";
 function Model() {
   const [inputValue, setInputValue] = useState('');
   const [query, setQuery] = useState('');
+  const [response, setResponse] = useState('');
   const [history, setHistory] = useState([]);
-  const ollama = useState(new Ollama({
+  const [ollama] = useState(new Ollama({
     baseUrl: "http://129.254.233.72:11434/",
     model: "mistral",
-  }))[0];
+  }));
 
-  const appendHistory = (q, a) => {
-    if (q !== '')
-      setHistory((prevHistory) => [...prevHistory, "[Q] " + q]);
-
-    if (a !== '')
-      setHistory((prevHistory) => [...prevHistory, "[A] " + a]);
+  const handleHistoryClearButtonClick = () => {
+    setHistory([]);
+    setResponse('');
   };
 
-  const handleClearButtonClick = () => {
-    setHistory([]);
+  const handleInputClearButtonClick = () => {
+    setInputValue('');
   };
 
   const handleInputChange = (event) => {
@@ -36,16 +34,43 @@ function Model() {
   };
 
   const handleSubmitButtonClick = () => {
+    setHistory(history => [...history, `[Q] ${inputValue}`]);
     setQuery(inputValue);
-    appendHistory(inputValue, '');
   };
 
   useEffect(() => {
-    ollama.call(query)
-      .then(res => {
-        appendHistory('', res);
-      })
-      .catch(err => { console.log(err) });
+    setResponse('');
+
+    const fetchData = async () => {
+      try {
+        const res = await ollama.stream(query);
+        const reader = res.getReader();
+
+        try {
+          let responseData = '[A] ';
+          setResponse(responseData);
+
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) {
+              setHistory(history => [...history, responseData]);
+              setResponse('');
+              break;
+            } else {
+              setResponse(response => response + value);
+              responseData += value;
+            }
+          }
+        } finally {
+          reader.releaseLock();
+        }
+      } catch (err) {
+        setResponse(response => response + `\n${err}`);
+      }
+    };
+
+    if (query !== '')
+      fetchData();
   }, [ollama, query]);
 
   return (
@@ -55,13 +80,17 @@ function Model() {
         {history.map((line, index) => (
           <p key={index}>{line}</p>
         ))}
-        <button onClick={handleClearButtonClick}>Clear history</button>
+        <div className="response">{response}</div>
+        <button onClick={handleHistoryClearButtonClick}>Clear history</button>
       </div>
       <h2>Query</h2>
       <div className="query">
-        <input type="text" id="inputField" value={inputValue} onChange={handleInputChange} onKeyPress={handleKeyPress} />
-        <button onClick={handleSubmitButtonClick}>Submit query</button><br/>
-        <sup>[참고] 질문 및 서버 상황에 따라 응답 시간이 수초에서 수십초까지 소요될 수 있습니다.</sup>
+        <div className="input">
+          <input type="text" value={inputValue} onChange={handleInputChange} onKeyPress={handleKeyPress} />
+          <div className="clear" onClick={handleInputClearButtonClick}>⨯</div>
+        </div>
+        <button onClick={handleSubmitButtonClick}>Submit query</button><br />
+        <sup>[Note] Response time may vary depending on the question and server conditions, ranging from a few seconds to tens of seconds.</sup>
       </div>
     </div>
   );

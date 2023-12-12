@@ -9,7 +9,7 @@ systemctl status ollama
 
 ```bash
 export OLLAMA_HOST=129.254.233.72:11434
-export OLLAMA_ORIGINS=http://129.254.233.72:8086
+export OLLAMA_ORIGINS=http://*:8086
 ollama serve
 ollama pull mistral
 ollama pull orca2

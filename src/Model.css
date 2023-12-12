@@ -7,16 +7,22 @@
     margin: 1em;
 }
 
-.Model .history p:nth-last-child(2) {
+.Model .history .response {
     font-size: 120%;
-    color: dodgerblue;
+    color: chocolate;
+    margin-bottom: 1em;
 }
 
 .Model .history button {
     padding: 0.5em 1em;
 }
 
-.Model input {
+.Model .input {
+    position: relative;
+    display: inline-block;
+}
+
+.Model .query .input input {
     width: 50em;
     height: 3em;
     margin-right: 0.5em;
@@ -24,19 +30,26 @@
     padding-left: 1em;
     padding-right: 1em;
     font-size: 120%;
+    border-radius: 0.3em;
+    border-color: lightgray;
+}
+
+.Model .input div.clear {
+    position: absolute;
+    top: 0.1em;
+    right: 0.6em;
+    cursor: pointer;
+    font-size: 200%;
+    color: gray;
 }
 
 .Model .query button {
     padding: 1em;
     margin-bottom: 0.5em;
     font-size: 120%;
+    border-color: lightgray;
 }
 
 .Model .query {
     margin: 1em;
-}
-
-.Model .response {
-    margin: 1em;
-    font-size: 120%;
 }
