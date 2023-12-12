@@ -14,6 +14,12 @@ ollama pull mistral
 ollama pull orca2
 ```
 
+## 포트 허용하기
+
+```bash
+sudo ufw allow 3001
+```
+
 ## 실행 확인하기
 
 - <http://129.254.233.72:11434/>
