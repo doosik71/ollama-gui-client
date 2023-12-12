@@ -5,19 +5,21 @@
 
 .Model .history {
     margin: 1em;
+    font-size: 120%;
 }
 
 .Model .history .response {
-    font-size: 120%;
     color: dodgerblue;
     margin-bottom: 1em;
 }
 
 .Model .history button {
     padding: 0.5em 1em;
+    border-radius: 0.5em;
+    border: 1px solid lightgray;
 }
 
-.Model .input {
+.Model .query .input {
     position: relative;
     display: inline-block;
 }
@@ -30,8 +32,8 @@
     padding-left: 1em;
     padding-right: 1em;
     font-size: 120%;
-    border-radius: 0.3em;
-    border-color: lightgray;
+    border-radius: 0.5em;
+    border: 1px solid lightgray;
 }
 
 .Model .input div.clear {
@@ -47,7 +49,8 @@
     padding: 1em;
     margin-bottom: 0.5em;
     font-size: 120%;
-    border-color: lightgray;
+    border-radius: 0.5em;
+    border: 1px solid lightgray;
 }
 
 .Model .query {

@@ -15,15 +15,15 @@ function Menu({ setModel }) {
     <div className="Menu">
       <div className="title">Ollama</div>
       <div>&nbsp;&nbsp;</div>
-      <div className="subtitle">with Mistral LLM</div>
-
-      <select value={selectedItem} onChange={handleSelectChange}>
-        {options.map((option, index) => (
-          <option key={index} value={option}>
-            {option}
-          </option>
-        ))}
-      </select>
+      <div className="subtitle">with
+        <select value={selectedItem} onChange={handleSelectChange}>
+          {options.map((option, index) => (
+            <option key={index} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
+        LLM</div>
     </div>
   );
 }
