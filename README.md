@@ -17,7 +17,7 @@ ollama pull orca2
 ## 포트 허용하기
 
 ```bash
-sudo ufw allow 3001
+sudo ufw allow 8086
 ```
 
 ## 실행 확인하기
