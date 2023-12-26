@@ -1,0 +1,9 @@
+[Unit]
+Description=Ollama GUI Client
+
+[Service]
+WorkingDirectory=/home/doosik/user/projects/ollama-gui-client
+ExecStart=/home/doosik/user/projects/ollama-gui-client/run_server.sh
+
+[Install]
+WantedBy=multi-user.target
