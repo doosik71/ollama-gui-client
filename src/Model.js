@@ -1,32 +1,34 @@
-import React, { useEffect, useState } from 'react';
-import './Model.css';
-import { Ollama } from "langchain/llms/ollama";
+import React, { useEffect, useState } from "react";
+import "./Model.css";
+// import { Ollama } from "langchain/llms/ollama";
+import { Ollama } from "@langchain/ollama";
 
-
-function Model({model}) {
-  const [inputValue, setInputValue] = useState('');
-  const [query, setQuery] = useState('');
-  const [response, setResponse] = useState('');
+function Model({ model }) {
+  const [inputValue, setInputValue] = useState("");
+  const [query, setQuery] = useState("");
+  const [response, setResponse] = useState("");
   const [history, setHistory] = useState([]);
   const [ollama, setOllama] = useState(null);
 
   useEffect(() => {
-    setOllama(new Ollama({
-      baseUrl: "http://129.254.233.72:11434/",
-      model: model,
-    }));
-    console.log(`Using ${model}`)
-    setQuery('');
-    setResponse('');
+    setOllama(
+      new Ollama({
+        baseUrl: "http://localhost:11434/",
+        model: model,
+      }),
+    );
+    console.log(`Using ${model}`);
+    setQuery("");
+    setResponse("");
   }, [model]);
 
   const handleHistoryClearButtonClick = () => {
     setHistory([]);
-    setResponse('');
+    setResponse("");
   };
 
   const handleInputClearButtonClick = () => {
-    setInputValue('');
+    setInputValue("");
   };
 
   const handleInputChange = (event) => {
@@ -34,19 +36,19 @@ function Model({model}) {
   };
 
   const handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       event.preventDefault();
       handleSubmitButtonClick();
     }
   };
 
   const handleSubmitButtonClick = () => {
-    setHistory(history => [...history, `[Q] ${inputValue}`]);
+    setHistory((history) => [...history, `[Q] ${inputValue}`]);
     setQuery(inputValue);
   };
 
   useEffect(() => {
-    setResponse('');
+    setResponse("");
 
     const fetchData = async () => {
       try {
@@ -54,17 +56,17 @@ function Model({model}) {
         const reader = res.getReader();
 
         try {
-          let responseData = '[A] ';
+          let responseData = "[A] ";
           setResponse(responseData);
 
           while (true) {
             const { done, value } = await reader.read();
             if (done) {
-              setHistory(history => [...history, responseData]);
-              setResponse('');
+              setHistory((history) => [...history, responseData]);
+              setResponse("");
               break;
             } else {
-              setResponse(response => response + value);
+              setResponse((response) => response + value);
               responseData += value;
             }
           }
@@ -72,12 +74,13 @@ function Model({model}) {
           reader.releaseLock();
         }
       } catch (err) {
-        setResponse(response => response + `\n${err}`);
+        setResponse((response) => response + `\n${err}`);
       }
     };
 
-    if (query !== '')
+    if (query !== "") {
       fetchData();
+    }
   }, [ollama, query]);
 
   return (
@@ -93,11 +96,22 @@ function Model({model}) {
       <h2>Query</h2>
       <div className="query">
         <div className="input">
-          <input type="text" value={inputValue} onChange={handleInputChange} onKeyPress={handleKeyPress} />
-          <div className="clear" onClick={handleInputClearButtonClick}>⨯</div>
+          <input
+            type="text"
+            value={inputValue}
+            onChange={handleInputChange}
+            onKeyPress={handleKeyPress}
+          />
+          <div className="clear" onClick={handleInputClearButtonClick}>
+            ⨯
+          </div>
         </div>
-        <button onClick={handleSubmitButtonClick}>Submit query</button><br />
-        <sup>[Note] Response time may vary depending on the question and server conditions, ranging from a few seconds to tens of seconds.</sup>
+        <button onClick={handleSubmitButtonClick}>Submit query</button>
+        <br />
+        <sup>
+          [Note] Response time may vary depending on the question and server
+          conditions, ranging from a few seconds to tens of seconds.
+        </sup>
       </div>
     </div>
   );
