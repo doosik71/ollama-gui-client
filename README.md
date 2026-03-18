@@ -1,10 +1,30 @@
-# 서비스로 실행하는 방법 (원격 접속이 안됨!)
+# Ollama GUI Client
 
-## 기존 서비스를 중지한다
+## Ollama 서버를 서비스로 재등록하기
 
 ```bash
 sudo systemctl stop ollama
-systemctl status ollama
+sudo cp ollama.service /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl start ollama
+sudo systemctl status ollama
+
+export OLLAMA_HOST=129.254.233.72:11434
+export OLLAMA_ORIGINS=http://*:8086
+ollama pull llama2
+ollama pull mistral
+ollama pull orca2
+```
+
+## Ollama client 서비스 등록하기
+
+```bash
+sudo cp ollama_gui_client.service /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable ollama_gui_client
+sudo systemctl start ollama_gui_client
+sudo systemctl status ollama_gui_client
+sudo ufw allow 8086
 ```
 
 ## IP 및 포트를 허용한다.
@@ -15,8 +35,8 @@ sudo vi /etc/systemd/system/ollama.service
 
 ```text
 [Service]
-Environment="OLLAMA_HOST=127.0.0.1:11434"
-Environment="OLLAMA_ORIGINS=http://127.0.0.1:*"
+Environment="OLLAMA_HOST=129.254.233.72:11434"
+Environment="OLLAMA_ORIGINS=http://*:8086"
 ```
 
 ## 서비스를 다시 시작한다
